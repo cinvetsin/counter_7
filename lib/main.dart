@@ -101,12 +101,12 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            if(_counter % 2 == 0)...[
+            if (_counter % 2 == 0) ...[
               const Text(
                 'GENAP',
-                style: TextStyle(color: Colors.red),
+                style: TextStyle(color: Colors.blue),
               ),
-            ] else...[
+            ] else ...[
               const Text(
                 'GANJIL',
                 style: TextStyle(color: Colors.blue),
@@ -123,7 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
         padding: const EdgeInsets.only(left: 30),
         child: Row(
           children: [
-            if(_counter > 0)...[
+            if (_counter > 0) ...[
               FloatingActionButton(
                 onPressed: _decrementCounter,
                 backgroundColor: Colors.red,
