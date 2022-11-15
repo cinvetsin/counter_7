@@ -6,6 +6,8 @@ Sasha Nabila Fortuna
 
 2106632226
 
+## **Tugas 7**
+
 **1. Jelaskan apa yang dimaksud dengan stateless widget dan stateful widget dan jelaskan perbedaan dari keduanya.**
 
 >Stateless widget adalah widget yang tidak berubah karena tindakan atau perilaku internal. Stateless widget berubah oleh external events pada parent widgets di widget tree.
@@ -109,3 +111,93 @@ Sasha Nabila Fortuna
 **Bagian Bonus**
 
 Pada saat nilai _counter sama dengan nol, maka tombol decrement akan disembunyikan sehingga tidak bisa melakukan decrement saat nilai _counter = 0.
+
+## **Tugas 8**
+
+**1. Jelaskan perbedaan `Navigator.push` dan `Navigator.pushReplacement`.**
+
+>`Naviagtion.push` method berfungsi untuk menambahkan layar baru ke puncak navigation stack.
+>
+>`Navigation.pushReplacement` method berfungsi untuk mengganti layar yang semula ada di puncak naviagtion stack, digantikan dengan layar yang baru.
+
+**2. Sebutkan widget apa saja yang kamu pakai di proyek kali ini dan jelaskan fungsinya.**
+>
+>1. MaterialApp() : Widget untuk melingkupi widget-widget yang biasanya dibutuhkan aplikasi untuk mengimplementasikan Material Design.
+>2. MyHomePage() : Widget yang berfungsi sebagai halamat utama aplikasi.
+>3. ThemeData() : Widget untuk mengatur konfigurasi tema aplikasi.
+>4. AppBar() : Widget yang terdiri atas toolbar dan beberapa widget, seperti TabBar dan FlexibleSpaceBar.
+>5. Scaffold : Widget ini mengimplementasikan struktur visual layout dari Material Design dasar. Widget ini menyediakan APIs untuk menampilakn drawers, snack bars, dan bottom sheets.
+>6. Text : Widget untuk menampilkan teks.
+>7. Column : Widget yang berfungsi untuk menampilkan widget-widget tersusun secara vertikal.
+>8. Row: Widget yang berfungsi untuk menampilkan widget-widget tersusun secara horizontal.
+>9. Padding : Widget yang berfungsi untuk memberikan padding pada widget yang dimaksud.
+>10. Spacer : Widget untuk membuat space yang fleksibel untuk disisipkan ke dalam Flexible widget.
+>11. Icon : Widget berupa ikon dari Material Design.
+>12. Drawer : Widget yang menyediakan akses ke beberapa layar tujuan dan fungsionalitas yang ada di dalam aplikasi.
+>13. ListTile : Widget yang memiliki tiga bagian, yaitu leading, center, dan trailing. Biasanya, ListTile digunakan untuk menampilkan informasi terkait.
+>14. Form : Widget yang digunakan untuk membuat suatu formulir dan bisa menggunakan widget-widget dari form.
+>15. SingleChildScrollView : Widget yang membuat sebuah box yang mana merupakan single widget, dapat di-*scroll*.
+>16. TextFormField : Widget yang menampilkan field form untuk input Text.
+>17. DropdownButton : Widget yang mempersilakan pengguna untuk menyeleksi sebuah item dari sebuah list item.
+>18. TextButton : Button dengan text.
+>19. ListView : list dari widget-widget yang dapat di-*scroll* secara linier.
+>20. DropdownMenuItem : Membuat item untuk menu dropdown
+>21. Card : panel dengan sudut segi empat yang tumpul dan memiliki bayangan elevasi
+
+**3. Sebutkan jenis-jenis event yang ada pada Flutter (contoh: `onPressed`).**
+
+>1. onPressed
+>2. onTap
+>3. onChanged
+>4. onSaved
+>5. onPointerHover
+>6. onPointerUp
+
+**4. Jelaskan bagaimana cara kerja Navigator dalam "mengganti" halaman dari aplikasi Flutter.**
+
+>Pada saat Navigation.push, layar baru akan masuk ke dalam navigation stack dan layar tersebut akan berada di puncak stack. Pada Naviagtion.pushReplacement, proses pergantian halaman seolah-olah melakukan pop pada layar yang berada di puncak stack, lalu melakukan push layar baru ke dalam stack. Proses Navigation pop terjadi ketika kita ingin mengeluarkan layar dari dalam stack.
+
+**5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas.**
+
+>1. Pada checklist pertama dan kedua, membuat drawer serta navigasi untuk setiap layar, sebagai berikut:
+```
+drawer: Drawer(
+    child: Column(
+        children: [
+        // Menambahkan clickable menu
+        ListTile(
+            title: const Text('counter_7'),
+            onTap: () {
+            // Route menu ke halaman utama
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const MyHomePage()),
+            );
+            },
+        ),
+        ListTile(
+            title: const Text('Tambah Budget'),
+            onTap: () {
+            // Route menu ke halaman form
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const MyFormBudgetPage()),
+            );
+            },
+        ),
+        ListTile(
+            title: const Text('Data Budget'),
+            onTap: () {
+            // Route menu ke halaman data budget
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const MyDataPage()),
+            );
+            },
+        ),
+        ],
+    ),
+),
+```
+>2. Pada checklist ketiga, buat input judul budget dengan widget TextFormField yang memiliki tipe data String, input nominal dengan widget TextFormField yang memiliki tipe data integer, input jenis budget dengan widget dropdown yang memiliki tipe data String.
+>3. Pada checklist keempat, menampilkan data yang sudah kita isi dari Form Budget dan menggunakan widget ListView untuk pengurutan card hasil tiap input yang tersimpan dan ListTile untuk pengaturan text pada Card.
