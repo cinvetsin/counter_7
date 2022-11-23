@@ -1,6 +1,7 @@
-import 'package:counter_7/addbudget.dart';
-import 'package:counter_7/databudget.dart';
+import 'package:counter_7/page/addbudget.dart';
+import 'package:counter_7/page/databudget.dart';
 import 'package:flutter/material.dart';
+import 'package:counter_7/page/mywatchlist.dart';
 
 void main() {
   runApp(const MyApp());
@@ -117,6 +118,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
             ),
+            ListTile(
+              title: const Text('My Watchlist'),
+              onTap: () {
+                // Route menu ke halaman utama
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MyWatchListPage()),
+                );
+              },
+            ),
           ],
         ),
       ),
@@ -143,7 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
             if (_counter % 2 == 0) ...[
               const Text(
                 'GENAP',
-                style: TextStyle(color: Colors.blue),
+                style: TextStyle(color: Colors.red),
               ),
             ] else ...[
               const Text(

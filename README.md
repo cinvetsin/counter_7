@@ -201,3 +201,231 @@ drawer: Drawer(
 ```
 >2. Pada checklist ketiga, buat input judul budget dengan widget TextFormField yang memiliki tipe data String, input nominal dengan widget TextFormField yang memiliki tipe data integer, input jenis budget dengan widget dropdown yang memiliki tipe data String.
 >3. Pada checklist keempat, menampilkan data yang sudah kita isi dari Form Budget dan menggunakan widget ListView untuk pengurutan card hasil tiap input yang tersimpan dan ListTile untuk pengaturan text pada Card.
+
+## **Tugas 9**
+
+**1. Apakah bisa kita melakukan pengambilan data JSON tanpa membuat model terlebih dahulu? Jika iya, apakah hal tersebut lebih baik daripada membuat model sebelum melakukan pengambilan data JSON?**
+
+>Ya, kita bisa mengambil data JSON tanpa perlu membuat modelnya terlebih dahulu. Output dari jsonDecode itu sendiri berupa Map[str, dynamic]. Namun, hal itu tidak membuat lebih baik ketika kita tidak membuat model karena kita tidak tahu apakah value-value dari item tersebut dynamic atau tidak. 
+
+**2. Sebutkan widget apa saja yang kamu pakai di proyek kali ini dan jelaskan fungsinya.**
+
+>1. Drawer : Widget yang menyediakan akses ke beberapa layar tujuan dan fungsionalitas yang ada di dalam aplikasi.
+>2. ListView : list dari widget-widget yang dapat di-*scroll* secara linier.
+>3. Column : Widget yang berfungsi untuk menampilkan widget-widget tersusun secara vertikal.
+>4. Row: Widget yang berfungsi untuk menampilkan widget-widget tersusun secara horizontal.
+>5. FutureBuilder: Widget untuk melakukan update child berdasarkan hasil future yang diberikan
+>6. Text: Widget untuk menampilkan teks
+
+**3. Jelaskan mekanisme pengambilan data dari json hingga dapat ditampilkan pada Flutter.**
+
+>1. Spesifikasikan terlebih dahulu model yang akan digunakan untuk data.
+>2. Buat suatu fungsi untuk melakukan fetch data yang memanfaatkan FetchBuilder untuk mengiterasi mengambil tiap data.
+>3. Data tersebut diambil melalui request URL yang diinginkan dan mengembalikan sebuah response.
+>4. Response tersebut akan diubah menjadi Dart object.
+>5. Untuk setiap object akan dilakukan looping dan disimpan pada sebuah list. Lalu, iterasi dari list tersebut digunakan untuk menampilkan data pada flutter
+
+**4. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas.**
+
+>1. Pada checklist pertama, menambahkan mywatchlist ke drawer:
+```
+ListTile(
+    title: const Text('Mywatchlist'),
+    onTap: () {
+        // Route menu ke halaman to do
+        Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const MyWatchListPage()),
+        );
+    },
+),
+```
+>2. Pada checklist kedua, file model watchlist bernama `model_mywatchlist.dart`
+>3. Pada checklist ketiga, buat dulu modelnya dengan memanfaatkan endpoint JSON yang sudah dibuat pada Tugas 3 pada url: [http://second-assignment.herokuapp.com/mywatchlist/json/](http://second-assignment.herokuapp.com/mywatchlist/json/).
+>4. Pada checklist keempat, buat navigasi setiap judul ke halaman detail seperti berikut:
+```
+onTap: (){
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => MyDataWatchPage(
+        watched: snapshot.data![index].fields.watched,
+        title: snapshot.data![index].fields.title,
+        rating: snapshot.data![index].fields.rating,
+        releaseDate: snapshot.data![index].fields.releaseDate,
+        review: snapshot.data![index].fields.review,
+    )));
+},
+```
+>5. Pada checklist kelima, tambahkan halaman detail untuk tiap judul film sebagai berikut:
+```
+import 'package:counter_7/page/addbudget.dart';
+import 'package:counter_7/page/databudget.dart';
+import 'package:counter_7/main.dart';
+import 'package:flutter/material.dart';
+import 'package:counter_7/page/mywatchlist.dart';
+
+import '../model/model_mywatchlist.dart';
+
+class MyDataWatchPage extends StatelessWidget {
+  const MyDataWatchPage(
+      {super.key,
+      required this.watched,
+      required this.title,
+      required this.rating,
+      required this.releaseDate,
+      required this.review});
+
+  final Watched? watched;
+  final String title;
+  final int rating;
+  final DateTime releaseDate;
+  final String review;
+
+  @override
+  Widget build(BuildContext context) {
+    var tanggal = releaseDate.toString().substring(0, 10);
+    var ratingToStr = rating.toString();
+    var watchedToStr;
+    var watchTo = Watched.BELUM;
+    switch (watchTo) {
+      case Watched.BELUM:
+        watchedToStr = "watched";
+        break;
+      case Watched.SUDAH:
+        watchedToStr = "not watched";
+        break;
+    }
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Detail'),
+      ),
+      drawer: Drawer(
+        child: Column(
+          children: [
+            // Menambahkan clickable menu
+            ListTile(
+              title: const Text('counter_7'),
+              onTap: () {
+                // Route menu ke halaman utama
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MyHomePage()),
+                );
+              },
+            ),
+            ListTile(
+              title: const Text('Tambah Budget'),
+              onTap: () {
+                // Route menu ke halaman form
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const MyFormBudgetPage()),
+                );
+              },
+            ),
+            ListTile(
+              title: const Text('Data Budget'),
+              onTap: () {
+                // Route menu ke halaman data budget
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MyDataPage()),
+                );
+              },
+            ),
+            ListTile(
+              title: const Text('Mywatchlist'),
+              onTap: () {
+                // Route menu ke halaman to do
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const MyWatchListPage()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+            const SizedBox(height: 20.0),
+            Container(
+                child: Align(
+              alignment: Alignment.center,
+              child: Text(title,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 34)),
+            )),
+            const SizedBox(height: 20.0),
+            Row(children: [
+              Text(
+                'Release Date: ',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text(tanggal),
+            ]),
+            const SizedBox(height: 20.0),
+            Row(children: [
+              Text(
+                'Rating: ',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text('$rating/5'),
+            ]),
+            const SizedBox(height: 20.0),
+            Row(children: [
+              Text(
+                'Release Date: ',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text(watchedToStr),
+            ]),
+            const SizedBox(height: 20.0),
+            Text('Review:', style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(review),
+            Spacer(),
+            Container(
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: TextButton(
+                      onPressed: (() {
+                        Navigator.pop(context);
+                      }),
+                      child: Text(
+                        'Back',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.blue)),
+            ))),
+          ],
+      ),
+    );
+  }
+}
+
+```
+>6. Pada checklist terakhir, tambahkan tombol untuk kemabli ke halaman mywatchlist sebagai berikut:
+```
+Container(
+    margin:
+        const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+    child: Align(
+        alignment: Alignment.bottomCenter,
+        child: TextButton(
+            onPressed: (() {
+            Navigator.pop(context);
+            }),
+            child: Text(
+            'Back',
+            style: TextStyle(color: Colors.white),
+            ),
+            style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all(Colors.blue)),
+))),
+```
