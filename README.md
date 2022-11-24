@@ -429,3 +429,59 @@ Container(
                     MaterialStateProperty.all(Colors.blue)),
 ))),
 ```
+
+### **Bagian bonus**
+```
+child: Container(
+    margin: const EdgeInsets.symmetric(
+        horizontal: 16, vertical: 12),
+    padding: const EdgeInsets.all(20.0),
+    decoration: BoxDecoration(
+        border: Border.all(
+            color: snapshot.data![index].fields
+                        .watched ==
+                    Watched.SUDAH
+                ? Colors.green
+                : Colors.red,
+            width: 2.5),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15.0),
+        boxShadow: const [
+          BoxShadow(
+              color: Colors.black, blurRadius: 2.0)
+        ]),
+    child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment:
+                MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "${snapshot.data![index].fields.title}",
+                style: const TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(
+                width: 100,
+                child: CheckboxListTile(
+                    value: snapshot.data![index]
+                            .fields.watched ==
+                        Watched.SUDAH,
+                    onChanged: (newVal) {
+                      setState(() {
+                        snapshot.data![index].fields
+                                .watched =
+                            !snapshot.data![index]
+                                .fields.watched;
+                        // watched = !watched;
+                      });
+                    }),
+              )
+            ],
+          )
+        ]))
+```
