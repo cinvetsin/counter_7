@@ -26,14 +26,11 @@ class MyDataWatchPage extends StatelessWidget {
     var tanggal = releaseDate.toString().substring(0, 10);
     var ratingToStr = rating.toString();
     var watchedToStr;
-    var watchTo = Watched.BELUM;
-    switch (watchTo) {
-      case Watched.BELUM:
-        watchedToStr = "watched";
-        break;
-      case Watched.SUDAH:
-        watchedToStr = "not watched";
-        break;
+    var watchTo = watched.toString();
+    if (watchTo == "Watched.BELUM") {
+      watchedToStr = "not watched";
+    } else if (watchTo == "Watched.SUDAH") {
+      watchedToStr = "watched";
     }
     return Scaffold(
       appBar: AppBar(
@@ -91,59 +88,58 @@ class MyDataWatchPage extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-            const SizedBox(height: 20.0),
-            Container(
-                child: Align(
-              alignment: Alignment.center,
-              child: Text(title,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 34)),
-            )),
-            const SizedBox(height: 20.0),
-            Row(children: [
-              Text(
-                'Release Date: ',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text(tanggal),
-            ]),
-            const SizedBox(height: 20.0),
-            Row(children: [
-              Text(
-                'Rating: ',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text('$rating/5'),
-            ]),
-            const SizedBox(height: 20.0),
-            Row(children: [
-              Text(
-                'Release Date: ',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text(watchedToStr),
-            ]),
-            const SizedBox(height: 20.0),
-            Text('Review:', style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(review),
-            Spacer(),
-            Container(
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: TextButton(
-                      onPressed: (() {
-                        Navigator.pop(context);
-                      }),
-                      child: Text(
-                        'Back',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.blue)),
-            ))),
-          ],
+          const SizedBox(height: 20.0),
+          Container(
+              child: Align(
+            alignment: Alignment.center,
+            child: Text(title,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 34)),
+          )),
+          const SizedBox(height: 20.0),
+          Row(children: [
+            Text(
+              'Release Date: ',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Text(tanggal),
+          ]),
+          const SizedBox(height: 20.0),
+          Row(children: [
+            Text(
+              'Rating: ',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Text('$rating/5'),
+          ]),
+          const SizedBox(height: 20.0),
+          Row(children: [
+            Text(
+              'Status: ',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Text(watchedToStr),
+          ]),
+          const SizedBox(height: 20.0),
+          Text('Review:', style: TextStyle(fontWeight: FontWeight.bold)),
+          Text(review),
+          Spacer(),
+          Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: TextButton(
+                    onPressed: (() {
+                      Navigator.pop(context);
+                    }),
+                    child: Text(
+                      'Back',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.blue)),
+                  ))),
+        ],
       ),
     );
   }
